@@ -43,6 +43,9 @@ public class FooResourceIntTest {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
+    private static final String DEFAULT_CREATOR = "AAAAAAAAAA";
+    private static final String UPDATED_CREATOR = "BBBBBBBBBB";
+
     @Inject
     private FooRepository fooRepository;
 
@@ -80,7 +83,8 @@ public class FooResourceIntTest {
      */
     public static Foo createEntity(EntityManager em) {
         Foo foo = new Foo()
-                .name(DEFAULT_NAME);
+                .name(DEFAULT_NAME)
+                .creator(DEFAULT_CREATOR);
         return foo;
     }
 
@@ -106,6 +110,7 @@ public class FooResourceIntTest {
         assertThat(foos).hasSize(databaseSizeBeforeCreate + 1);
         Foo testFoo = foos.get(foos.size() - 1);
         assertThat(testFoo.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testFoo.getCreator()).isEqualTo(DEFAULT_CREATOR);
     }
 
     @Test
@@ -119,7 +124,8 @@ public class FooResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(foo.getId().intValue())))
-                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+                .andExpect(jsonPath("$.[*].creator").value(hasItem(DEFAULT_CREATOR.toString())));
     }
 
     @Test
@@ -133,7 +139,8 @@ public class FooResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(foo.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.creator").value(DEFAULT_CREATOR.toString()));
     }
 
     @Test
@@ -155,7 +162,8 @@ public class FooResourceIntTest {
         // Update the foo
         Foo updatedFoo = fooRepository.findOne(foo.getId());
         updatedFoo
-                .name(UPDATED_NAME);
+                .name(UPDATED_NAME)
+                .creator(UPDATED_CREATOR);
 
         restFooMockMvc.perform(put("/api/foos")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -167,6 +175,7 @@ public class FooResourceIntTest {
         assertThat(foos).hasSize(databaseSizeBeforeUpdate);
         Foo testFoo = foos.get(foos.size() - 1);
         assertThat(testFoo.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testFoo.getCreator()).isEqualTo(UPDATED_CREATOR);
     }
 
     @Test

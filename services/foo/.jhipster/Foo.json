@@ -5,6 +5,10 @@
         {
             "fieldName": "name",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "creator",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20161122055947",

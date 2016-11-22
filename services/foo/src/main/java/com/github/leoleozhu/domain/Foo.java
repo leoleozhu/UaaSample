@@ -21,6 +21,9 @@ public class Foo implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "creator")
+    private String creator;
+
     public Long getId() {
         return id;
     }
@@ -40,6 +43,19 @@ public class Foo implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public Foo creator(String creator) {
+        this.creator = creator;
+        return this;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
     @Override
@@ -67,6 +83,7 @@ public class Foo implements Serializable {
         return "Foo{" +
             "id=" + id +
             ", name='" + name + "'" +
+            ", creator='" + creator + "'" +
             '}';
     }
 }

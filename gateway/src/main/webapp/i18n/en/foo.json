@@ -16,7 +16,8 @@
             "detail": {
                 "title": "Foo"
             },
-            "name": "Name"
+            "name": "Name",
+            "creator": "Creator"
         }
     }
 }

@@ -3,6 +3,7 @@ package com.github.leoleozhu.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.github.leoleozhu.domain.Foo;
 import com.github.leoleozhu.security.AuthoritiesConstants;
+import com.github.leoleozhu.security.SecurityUtils;
 import com.github.leoleozhu.service.FooService;
 import com.github.leoleozhu.web.rest.util.HeaderUtil;
 import com.github.leoleozhu.web.rest.util.PaginationUtil;
@@ -27,6 +28,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
+
 @Secured(AuthoritiesConstants.ADMIN)
 public class FooResource {
 
@@ -45,6 +47,8 @@ public class FooResource {
     @PostMapping("/foos")
     @Timed
     public ResponseEntity<Foo> createFoo(@RequestBody Foo foo) throws URISyntaxException {
+        String currentUser = SecurityUtils.getCurrentUserLogin();
+        foo.setCreator(currentUser);
         log.debug("REST request to save Foo : {}", foo);
         if (foo.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("foo", "idexists", "A new foo cannot already have an ID")).body(null);

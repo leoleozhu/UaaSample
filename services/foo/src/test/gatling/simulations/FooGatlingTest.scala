@@ -80,7 +80,7 @@ class FooGatlingTest extends Simulation {
             .exec(http("Create new foo")
             .post("/api/foos")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "name":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "name":"SAMPLE_TEXT", "creator":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_foo_url"))).exitHereIfFailed
             .pause(10)
